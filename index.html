@@ -1,0 +1,120 @@
+<style>
+
+	* { margin: 0; padding: 0; font-family: Arial; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  background-color: #333;
+  
+  position: relative;
+  
+  display: flex;
+  justify-content: center; align-items: end;
+  
+  transform-style: preserve-3d;
+  perspective: 400px;
+}
+
+.maintenance-screen {
+  width: 100%; height: 100%;
+  background-color: #000;
+  color: #fff;
+  
+  position: fixed; z-index: 5;
+  
+  display: none; flex-direction: column;
+  justify-content: center; align-items: center;
+}
+
+canvas {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5) 60%, rgba(65, 22, 41, 0.5));
+  border-left: 5px solid #c9a795;
+  border-right: 5px solid #c9a795;
+  box-shadow: 
+    -7px 0px 0px #4b2038,
+    7px 0px 0px #4b2038
+  ;
+  
+  transform: rotateX(55deg);
+}
+
+</style>
+
+<div class="maintenance-screen">
+  <img src="https://comptoirdugeek.ch/cdn/shop/files/towelie1_1000x898trim_min-h6rs.webp?v=1691403520&width=1445" alt="" width="100px">
+  <h1>⚠️ Down for maintenance ⚠️</h1>
+</div>
+
+<canvas></canvas>
+
+<script>
+
+	let canvas = document.querySelector("canvas")
+let ctx = canvas.getContext("2d")
+
+canvas.width = 300
+canvas.height = 450
+
+let pads = []
+
+for (let i = 0; i < 5; i++) 
+{
+  
+  pads.push(
+    
+    class {
+      constructor() {
+        this.r = canvas.width / 11
+        this.x = i * this.r * 2.25 + this.r
+        this.y = canvas.height - this.r * 2.75
+        this.c = "#fff"
+      }
+      
+      draw() {
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
+        ctx.lineWidth = 5
+        ctx.strokeStyle = this.c
+        ctx.stroke()
+        
+        ctx.beginPath()
+        ctx.fillStyle = "#643c4c"
+        ctx.arc(this.x, this.y, this.r / 1.6, 0, 2 * Math.PI)
+        ctx.fill()
+      }
+      
+      update() {
+        this.draw()
+      }
+    }
+    
+  )
+  
+}
+
+let pad0 = new pads[0]()
+pad0.c = "#2bb458"
+let pad1 = new pads[1]()
+pad1.c = "#fb2a2e"
+let pad2 = new pads[2]()
+pad2.c = "#ffe905"
+let pad3 = new pads[3]()
+pad3.c = "#114bd4"
+let pad4 = new pads[4]()
+pad4.c = "#fe9e0b"
+
+function main() {
+  requestAnimationFrame(main)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  
+  pad0.update()
+  pad1.update()
+  pad2.update()
+  pad3.update()
+  pad4.update()
+}
+
+main()
+
+</script>
+
